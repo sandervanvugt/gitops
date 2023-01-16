@@ -1,0 +1,32 @@
+#!/bin/bash
+# version 0.1 - Jan. 16th 2023
+
+# check if new deployments are added and print imagename in the output
+kubectl get --watch --watch-only --output-watch-events deploy -o wide -o custom-columns=type:type,name:object.metadata.name,containers:object.spec.template.spec.containers[*].image --no-headers | \
+	while read next; do
+
+	NAME=$(echo $next | cut -d' ' -f2)
+	EVENT=$(echo $next | cut -d' ' -f1)
+	IMAGE=$(echo $next | cut -d' ' -f3)
+
+		if echo $IMAGE | grep 'nginx'
+		then
+
+			case $EVENT in
+			ADDED)
+				echo debug: $NAME was added
+				kubectl expose deploy $NAME --port=80 --type=NodePort
+				kubectl annotate service $NAME created="$(date +%m-%d-%y)"
+				;;
+			MODIFIED)
+				echo $NAME was modified
+				echo not taking any further action
+				;;
+			DELETED)
+				echo $NAME was deleted
+				kubectl delete svc $NAME
+				;;
+			esac
+		fi
+	done
+
