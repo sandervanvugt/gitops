@@ -1,0 +1,9 @@
+bases:
+  - ../../base
+
+patchesStrategicMerge:
+  - patch.yaml
+
+images:
+   - name: nginx
+     newTag: "1.18"

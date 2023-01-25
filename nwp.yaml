@@ -1,0 +1,10 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  namespace: prod
+  name: noaccess
+spec:
+  podSelector: {}
+  ingress:
+  - from:
+    - podSelector: {}

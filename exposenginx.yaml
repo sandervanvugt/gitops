@@ -3,11 +3,11 @@
 
 # check if new deployments are added and print imagename in the output
 kubectl get --watch --watch-only --output-watch-events deploy -o wide -o custom-columns=type:type,name:object.metadata.name,containers:object.spec.template.spec.containers[*].image --no-headers | \
-	while read next; do
+	while read line; do
 
-	NAME=$(echo $next | cut -d' ' -f2)
-	EVENT=$(echo $next | cut -d' ' -f1)
-	IMAGE=$(echo $next | cut -d' ' -f3)
+	NAME=$(echo $line | cut -d' ' -f2)
+	EVENT=$(echo $line | cut -d' ' -f1)
+	IMAGE=$(echo $line | cut -d' ' -f3)
 
 		if echo $IMAGE | grep 'nginx'
 		then
