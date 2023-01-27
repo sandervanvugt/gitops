@@ -2,6 +2,7 @@
 
 ARCH=$(arch)
 
+### installing Docker
 sudo apt-get update
 sudo apt-get install ca-certificates curl gnupg lsb-release
 sudo mkdir -p /etc/apt/keyrings
@@ -34,7 +35,7 @@ then
 fi
 
 echo the script is now ready
-echo manually run minikube start --vm-driver=docker to start minikube
+echo manually run minikube start --memory=6g --cpus=4 --vm-driver=docker to start minikube
 
 sudo usermod -aG docker $USER
 newgrp docker
