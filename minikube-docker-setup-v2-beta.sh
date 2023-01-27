@@ -11,7 +11,7 @@ echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.
 sudo apt-get update -y
 sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin -y
 
-if [ $ARCH=x86_64 ]
+if [ $ARCH = "x86_64" ]
 then
 	echo executing on $ARCH
 	#sudo apt-get install apt-transport-https ca-certificates curl gnupg-agent software-properties-common -y
@@ -28,7 +28,7 @@ then
 	sudo install minikube-linux-amd64 /usr/local/bin/minikube
 fi
 
-if [ $ARCH=aarch64 ]
+if [ $ARCH = "aarch64" ]
 then
 	curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-arm64
 	sudo install minikube-linux-arm64 /usr/local/bin/minikube
