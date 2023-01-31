@@ -1,0 +1,11 @@
+  patches:
+  - patch: |-
+      apiVersion: autoscaling/v2beta2
+      kind: HorizontalPodAutoscaler
+      metadata:
+        name: kube-app
+      spec:
+        minReplicas: 3
+    target: 
+      name: kube-app
+      kind: HorizontalPodAutoscaler
