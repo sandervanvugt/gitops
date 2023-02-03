@@ -1,0 +1,12 @@
+apiVersion: triggers.tekton.dev/v1beta1
+kind: EventListener
+metadata:
+  name: demo-listener
+spec:
+  serviceAccountName: tekton-robot
+  triggers:
+  - name: demo-trigger
+    bindings:
+    - ref: demo-binding
+    template:
+      ref: demo-template

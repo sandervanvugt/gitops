@@ -1,0 +1,19 @@
+apiVersion: triggers.tekton.dev/v1beta1
+kind: TriggerTemplate
+metadata:
+  name: demo-template
+spec:
+  params:
+  - name: username
+    default: "anna"
+  resourcetemplates:
+  - apiVersion: tekton.dev/v1beta1
+    kind: PipelineRun
+    metadata:
+      generateName: demo-run-
+    spec:
+      pipelineRef:
+        name: demopipe
+      params:
+      - name: username
+        value: $(tt.params.username)
