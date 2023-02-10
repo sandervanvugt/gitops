@@ -1,7 +1,7 @@
 apiVersion: tekton.dev/v1beta1
 kind: Task
 metadata:
-  name: goodbye
+  name: secondtask
 spec:
   params:
   - name: username
@@ -10,5 +10,5 @@ spec:
   - name: goodbye
     image: alpine
     script: |
-      #!/bin/bash
+      #!/bin/sh
       echo "goodbye $(params.username)!"
