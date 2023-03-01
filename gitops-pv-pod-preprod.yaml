@@ -1,0 +1,18 @@
+kind: Pod
+apiVersion: v1
+metadata:
+   name: gitops-pod
+spec:
+  volumes:
+    - name: pv-storage
+      persistentVolumeClaim:
+        claimName: pvc-preprod
+  containers:
+    - name: pv-container
+      image: nginx
+      ports:
+        - containerPort: 80
+          name: http-server
+      volumeMounts:
+        - mountPath: /usr/share/nginx/html
+          name: pv-storage
