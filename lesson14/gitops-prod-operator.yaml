@@ -16,7 +16,14 @@ spec:
           containers:
             - name: gitops-operator
               image: sandervanvugt/gittools
+              volumeMounts:
+                - mountPath: /prod
+                  name: prod
               command: [sh, -e, -c]
               args:
-                - git clone https://github.com/sandervanvugt/gitops-preprod /tmp/gitops-preprod &&\ 
-                  find /tmp/gitops-preprod -name '*.yaml' -exec kubectl apply -f {} \;
+                - git clone https://github.com/sandervanvugt/prod /prod || (cd /prod && git pull) && 
+                  find /prod -name '*.yaml' -exec kubectl apply -f {} \;
+         volumes:
+           - name: prod
+             hostPath:
+               path: /prod
