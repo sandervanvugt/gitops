@@ -8,7 +8,7 @@ spec:
       volumes:
       - name: storage
         persistentVolumeClaim:
-          name: preprod-pvc
+          claimName: preprod-pvc
       containers:
       - name: nginx
         volumeMounts:
