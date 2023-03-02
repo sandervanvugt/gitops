@@ -1,0 +1,17 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: preprod
+spec:
+  template:
+    spec:
+      volumes:
+      - name: storage
+        persistentVolumeClaim:
+          name: preprod-pvc
+      containers:
+      - name: nginx
+        volumeMounts:
+        - name: storage
+          mountPath: /usr/share/nginx/html/
+

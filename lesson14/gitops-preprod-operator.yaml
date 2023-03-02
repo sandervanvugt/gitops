@@ -1,0 +1,37 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: gitops-preprod-operator
+  namespace: preprod
+spec:
+  schedule: "*/2 * * * *"
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      backoffLimit: 0
+      template:
+        spec:
+          restartPolicy: Never
+          serviceAccountName: gitops
+          containers:
+            - name: gitops-operator
+              image: sandervanvugt/gittools
+              volumeMounts:
+                - mountPath: /preprod
+                  name: preprod
+                - mountPath: /prod
+                  name: prod
+              command: [sh, -e, -c]
+              args:
+                - git clone https://github.com/sandervanvugt/gitops-preprod /tmp/gitops-preprod &&\ 
+                  find /tmp/kube-app -name '*.yaml' -exec kubectl apply -f {} \; &&\
+                  curl preprod | grep preproduction || exit &&\
+                  find /preprod -type f -exec cp {} /prod/ \; &&\
+                  find /prod -type f -exec sed -i -e 's/preprod/prod/g' {} \;
+          volumes:
+            - name: preprod
+              hostPath:
+                path: /preprod
+            - name: prod
+              hostPath:
+                path: /prod

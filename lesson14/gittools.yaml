@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: gittools
+  name: gittools
+spec:
+  containers:
+  - image: sandervanvugt/gitops
+    name: gittools
+    args:
+      - sleep
+      - infinity
+    resources: {}
+    volumeMounts:
+      - mountPath: /preprod
+        name: preprod
+      - mountPath: /prod
+        name: prod
+      - mountPath: /kube-app
+        name: kube-app
+  volumes:
+  - name: preprod
+    hostPath: 
+      path: /preprod
+  - name: prod
+    hostPath: 
+      path: /prod
+  - name: kube-app
+    hostPath:
+      path: /kube-app
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+status: {}
+
